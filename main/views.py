@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.views.generic import TemplateView
 
-def list(request):
-    return render(request, 'page-index-1.html')
+class ListView(TemplateView):
+    template_name = 'page-index-1.html'
