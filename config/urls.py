@@ -23,7 +23,7 @@ import os
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.ListView.as_view(), name='home')
+    path('', views.HomePage.as_view(), name='home')
 ]
 
 if settings.DEBUG:

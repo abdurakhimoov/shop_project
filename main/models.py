@@ -18,15 +18,14 @@ class ColorChoices(TextChoices):
 
 class DeliveryTimeChoices(TextChoices):
     ONE_DAY = ('1_day', '1 Day Delivery')
-    TWO_DAYS = ('2_day', '2 Day Delivery')
-    THREE_FOUR_DAYS = ('3_4_days', '3-4 Days Delivery')
-    FIVE_SEVEN_DAYS = ('5_7_days', '5-7 Days Delivery')
-    SVEEN_TEN_DAYS = ('5_7_days', '5-7 Days Delivery')
-    TEN_FOURTEEN_DAYS = ('7_10_days', '7-10 Days Delivery')
-    TWO_THREE_WEEKS = ('10_40_days', '10-14 Days Delivery')
-    THREE_FOUR_WEEKS = ('2_3_weeks', '2-3 Weeks Delivery')
-    ONE_MOTH = ('1_month', '1_Month Delivery')
-    TWO_MONTHS =('2_month', '2_Month Delivery')
+    TWO_DAYS = ('2_days', '2 Days Delivery')
+    THREE_FOUR_DAYS = ('3_4_days', '3–4 Days Delivery')
+    FIVE_SEVEN_DAYS = ('5_7_days', '5–7 Days Delivery')
+    TEN_FOURTEEN_DAYS = ('10_14_days', '10–14 Days Delivery')
+    TWO_THREE_WEEKS = ('2_3_weeks', '2–3 Weeks Delivery')
+    THREE_FOUR_WEEKS = ('3_4_weeks', '3–4 Weeks Delivery')
+    ONE_MONTH = ('1_month', '1 Month Delivery')
+    TWO_MONTHS = ('2_months', '2 Months Delivery')
 
 
 class SizeChoices(TextChoices):
@@ -48,6 +47,7 @@ class Category(models.Model):
     image = models.FileField(upload_to='image/category')
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
     def __str__(self):
         return self.name
 
@@ -83,6 +83,7 @@ class Product(models.Model):
     subcategory = models.ForeignKey('SubCategory', on_delete=models.CASCADE, related_name='product')
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
 
     def __setattr__(self, name, value):
         return self.title
@@ -92,6 +93,7 @@ class ProductImage(models.Model):
     name = models.CharField(max_length=100)
     image = models.FileField(upload_to='image/product')
     product = models.ForeignKey('Product', on_delete=models.CASCADE, related_name='images')
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
@@ -100,6 +102,7 @@ class ProductImage(models.Model):
 class Country(models.Model):
     name = models.CharField(max_length=70)
     icon = models.FileField(upload_to='image/flag')
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
@@ -109,6 +112,7 @@ class Services(models.Model):
     image = models.FileField(upload_to='image/sevices')
     name = models.CharField(max_length=50)
     desc = models.CharField(max_length=190)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
