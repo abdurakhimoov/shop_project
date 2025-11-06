@@ -68,31 +68,31 @@ class Product(models.Model):
     title = models.CharField(max_length=200)
     price = models.DecimalField(max_digits=8, decimal_places=2)
     description = models.TextField()
-    main_image = models.FileField(upload_to='images/product')
+    main_image = models.FileField(upload_to='image/product')
     color = models.CharField(max_length=100, choices=ColorChoices.choices, default=ColorChoices.WHITE)
     quantity = models.PositiveIntegerField(default=1)
-    coutry = models.ForeignKey('Country', on_delete=models.CASCADE, related_name='product')
+    country = models.ForeignKey('Country', on_delete=models.CASCADE, related_name='products')
     guarantee = models.PositiveSmallIntegerField(default=1)
     delivery_time = models.CharField(max_length=50, choices=DeliveryTimeChoices.choices, default=DeliveryTimeChoices.TWO_DAYS)
-    rewiew = models.PositiveIntegerField(default=0)
+    review = models.PositiveIntegerField(default=0)
     size = models.CharField(max_length=100, choices=SizeChoices.choices, blank=True, null=True)
-    discount = models.PositiveSmallIntegerField(default=0, validators=[MinValueValidator(100), MinValueValidator(0)])
+    discount = models.PositiveSmallIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
     rate = models.PositiveSmallIntegerField(default=0,validators=[MinValueValidator(0), MaxValueValidator(10)])
     recomended = models.BooleanField(default=False)
     company = models.CharField(max_length=100)
-    subcategory = models.ForeignKey('SubCategory', on_delete=models.CASCADE, related_name='product')
+    subcategory = models.ForeignKey('SubCategory', on_delete=models.CASCADE, related_name='products')
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
 
-    def __setattr__(self, name, value):
+    def __str__(self):
         return self.title
     
 
 class ProductImage(models.Model):
     name = models.CharField(max_length=100)
     image = models.FileField(upload_to='image/product')
-    product = models.ForeignKey('Product', on_delete=models.CASCADE, related_name='images')
+    product = models.ForeignKey('Product', on_delete=models.CASCADE, related_name='image')
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
