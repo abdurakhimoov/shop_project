@@ -1,12 +1,17 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView, ListView
 from .models import Category, Product, Country, Services
+from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 
-class HomePage(ListView):
+class HomePage(LoginRequiredMixin, ListView):
     model = Product
     context_object_name = 'products'
     template_name = 'page-index-1.html'
     ordering = ['-created_at']
+    login_url = 'login'
+    redirect_field_name = None
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
@@ -21,3 +26,19 @@ class HomePage(ListView):
             is_active=True
         )
         return data
+    
+class UserLoginView(LoginView):
+    template_name = 'page-user-login.html'
+    redirect_authenticated_user = True
+
+    def get_success_url(self):
+        return reverse_lazy('home')
+
+
+class UserLogoutView(LogoutView):
+    next_page = reverse_lazy('login')
+
+
+class UserRegisterView(ListView):
+    model = Product
+    template_name = 'page-user-register.html'
